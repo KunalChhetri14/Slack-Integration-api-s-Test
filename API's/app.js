@@ -9,7 +9,7 @@ app.use(cors());
 const url ='mongodb+srv://Kunal:mongodb123@clustertutorialspoint-o34i7.mongodb.net/test?retryWrites=true&w=majority';
 const dbName='ToDoAppDatbase';
 const toDoTableName='ToDoList';
-const PORT=process.env.PORT || 3000;
+// const PORT=process.env.PORT || 3000;
 
 function checkDuplicate(channelId,todoText){
     return new Promise(function(resolve,reject){
@@ -229,6 +229,6 @@ app.get('/',(req,res)=>{
 })
 
 
-app.listen(PORT,()=>{
+app.listen(3000,()=>{
     console.log("Server Conected");
 })
