@@ -1,0 +1,22 @@
+{
+  "name": "todoapis",
+  "version": "1.0.0",
+  "description": "\"slack command response server\"",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kunalchhetri14@bitbucket.org/kunalchhetri14/todoapis.git"
+  },
+  "author": "Kunal",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/kunalchhetri14/todoapis#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongo": "^0.1.0"
+  }
+}
