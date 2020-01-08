@@ -3,7 +3,7 @@ const app=express();
 var MongoClient=require('mongodb').MongoClient;
 var cors=require('cors');
 const bodyParser = require('body-parser');
-
+const PORT=process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 const url ='mongodb+srv://Kunal:mongodb123@clustertutorialspoint-o34i7.mongodb.net/test?retryWrites=true&w=majority';
@@ -43,10 +43,6 @@ function checkDuplicate(channelId,todoText){
 /// TO ADD THE todolist
 app.post('/addtodo',(req,res)=>{
     console.log("Inside /addtodo api");
-    //console.log(req.body)
-    console.log(req.body['text']);
-    
-   
             let channel_id=req.body['channel_id'];
             let todo=req.body['text'];
             console.log("    ",channel_id,"   ",todo);
@@ -228,6 +224,6 @@ app.get('/',(req,res)=>{
 })
 
 
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
     console.log("Server Conected");
 })
