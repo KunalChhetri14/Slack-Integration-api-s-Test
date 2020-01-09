@@ -12,6 +12,7 @@ const toDoTableName='ToDoList';
 
 var addToDoHelper=require('./addToDoModules');
 var deleteToDoHelper=require('./markToDoModules');
+var listToDoHelper=require('./listToDOsModules');
 
 
 /// TO ADD THE todolist
@@ -61,48 +62,12 @@ app.post('/listtodos',(req,res)=>{
     let channelId=req.body['channel_id'];
     // let todo=req.body['text'];
     console.log("  ",channelId);
-    MongoClient.connect(url,function(err,db){
-        if(err){
-            console.log('Database connection error');
-            return res.send("Database side error");
-
-        }
-
-        else{
-            console.log("connected");
-            var dbo=db.db(dbName);
-            let k = dbo.collection(toDoTableName)
-                    .find({'channel_id':channelId})
-                    .toArray();
-            // console.log('K value is', k);
-
-            db.close();
-            k.then(data => {
-                ToDoItems=[];
-               // console.log("Dataq is ",data);
-                for(let value of data){
-                    ToDoItems.push(value.toDoItem);
-                    //value.toDoItem);
-                }
-                let len=ToDoItems.length;
-                if(len==0){
-                    return res.send("NO TODOs");
-                }
-                else{
-                    let returnList="";
-                    for(let i of ToDoItems){
-                        returnList+='"'+i+'"   ';
-                    }
-                    return res.send(returnList);
-                }
-                
-                })
-            .catch(err => {
-                    return res.send();
-             });
-            // res.send("all todoList");
-            }
-});
+    listToDoHelper.listToDoResponse(channelId)
+    .then(function(data){
+        return res.send(data);
+    }).catch(err=>{
+        return res.send(err);
+    })  
 });
 
 
