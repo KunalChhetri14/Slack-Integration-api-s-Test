@@ -74,7 +74,7 @@ app.post('/edittodo', (req, res) => {
   let toDoItem = req.body['text'];
   console.log('Value is ', toDoItem);
   PrevNewValue = toDoItem.split('/');
-  if (PrevNewValue.length < 2) {
+  if (PrevNewValue.length != 2) {
     return res.send("Command format isn't valid");
   }
   let currentItem = PrevNewValue[0].trim();
