@@ -72,7 +72,6 @@ app.post('/listtodos', (req, res) => {
 app.post('/edittodo', (req, res) => {
   let channelId = req.body['channel_id'];
   let toDoItem = req.body['text'];
-  console.log('Value is ', toDoItem);
   PrevNewValue = toDoItem.split('/');
   if (PrevNewValue.length != 2) {
     return res.send("Command format isn't valid");
