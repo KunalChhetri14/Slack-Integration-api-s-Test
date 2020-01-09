@@ -7,7 +7,7 @@
 
 #Slack workspace invite link:  https://join.slack.com/t/dockabltask-workspace/shared_invite/enQtODk5MzI0MzM3NDc5LWUyOTU4OWQyNjYyMWE1ZDQ2NTBhZWM4MmQ2NzM2ZDNiMzg0ZjE2ZmI1NDJjOTZhN2UzYWVkZTRiM2JhYTFhMGY
 
-#Using code locally:  API's folder is of no importance ... all functionality is contained in outermost files.
+
 
 #Command usage :
 
