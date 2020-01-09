@@ -10,34 +10,7 @@ const url ='mongodb+srv://Kunal:mongodb123@clustertutorialspoint-o34i7.mongodb.n
 const dbName='ToDoAppDatbase';
 const toDoTableName='ToDoList';
 
-function checkDuplicate(channelId,todoText){
-    return new Promise(function(resolve,reject){
-        MongoClient.connect(url,function(err,db){
-            if (err){
-                console.log("MongoDB not connected");
-                reject(err);
-            }
-            else{
-                var dbo=db.db(dbName);
-                dbo.collection(toDoTableName)
-                .find({$and:[{channel_id:channelId},{toDoItem:todoText}]})
-                .toArray(function(err,data){
-                    if(data){
-                        console.log(data);
-                        resolve(data);
-                        db.close();
-                    }
-
-                    else{
-                        reject(err);
-                        db.close();
-                    }
-                });
-               
-            }
-        })
-    })
-}
+var addToDoHelper=require('./addToDoModules');
 
 
 /// TO ADD THE todolist
@@ -45,42 +18,19 @@ app.post('/addtodo',(req,res)=>{
     console.log("Inside /addtodo api");
             let channel_id=req.body['channel_id'];
             let todo=req.body['text'];
+            if(todo.length<3){
+                res.send("TODO length should be atleast 3");
+            }
             console.log("    ",channel_id,"   ",todo);
-            checkDuplicate(channel_id,todo)
-            .then(function(data){
-                //console.log("data is ",data);
-                if(data.length>0){
-                    console.log(" THERE IS DUPLICATE");
-                    return res.send("THE todolist with the same name already exist");
-                }
-                else{
-                    MongoClient.connect(url,function(err,db){
-                        if (err){
-                            console.log("MongoDB not connected");
-                           return res.send("Error while connecting to app")
-                        }
-                        else{
-                            var dbo=db.db(dbName);
-                            dbo.collection(toDoTableName).insertOne({channel_id:channel_id,toDoItem:todo});
-                            db.close();
-                            console.log("Record inserted");
-                            let addedTodo='Added TODO for '+'"'+todo+'"';
-                            return res.send(addedTodo);
-                        }
-                    })
-                }
+            let promise=addToDoHelper.getAddToDoResponse(channel_id,todo).then(function(data){
+                return res.send(data);
             }).catch(err=>{
-                return res.send("Database side error");
+                res.send(err);
             });
-
-           
-
-            
+            console.log("The value is " ,promise);    
         });
   
-    
-        // res.send(k);
-
+ 
     
 
 
