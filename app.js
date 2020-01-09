@@ -19,7 +19,7 @@ app.post('/addtodo',(req,res)=>{
             let channel_id=req.body['channel_id'];
             let todo=req.body['text'];
             if(todo.length<3){
-                res.send("TODO length should be atleast 3");
+                return res.send("TODO length should be atleast 3");
             }
             console.log("    ",channel_id,"   ",todo);
             let promise=addToDoHelper.getAddToDoResponse(channel_id,todo).then(function(data){
@@ -27,7 +27,7 @@ app.post('/addtodo',(req,res)=>{
             }).catch(err=>{
                 res.send(err);
             });
-            console.log("The value is " ,promise);    
+             
         });
   
  
