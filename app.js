@@ -11,6 +11,7 @@ const dbName='ToDoAppDatbase';
 const toDoTableName='ToDoList';
 
 var addToDoHelper=require('./addToDoModules');
+var deleteToDoHelper=require('./markToDoModules');
 
 
 /// TO ADD THE todolist
@@ -43,40 +44,16 @@ app.post('/marktodo',(req,res)=>{
     let channelId=req.body['channel_id'];
     let todo=req.body['text'];
     console.log("  ",channelId,"   ",todo);
-    MongoClient.connect(url,function(err,db){
-        if(err){
-            console.log('Database connection error');
-            return res.send("Database side error");
-
-        }
-
-        else{
-            console.log("connected");
-            var dbo=db.db(dbName);
-            let k=dbo.collection(toDoTableName).findOneAndDelete({$and:[{toDoItem:todo},{channel_id:channelId}]});
-            k.then(data=>{
-                console.log(data.value);
-                if(data.lastErrorObject.n!=1){
-                    let notFound="TODO "+'"'+todo+'"'+" not found";
-                    db.close();
-                    res.send(notFound);
-                }
-                else{
-                    db.close();
-                    let toDeleteItem="Removed TODO for "+ '"'+todo+'"';
-                    res.send(toDeleteItem);
-                }
-               
-            }).catch(err=>{
-                db.close();
-                res.send("Error while deleting");
-            });
-        }
-
-    });
-
+    deleteToDoHelper.deleteToDoResponse(channelId,todo)
+    .then(function(data){
+        return res.send(data);
+    }).catch(err=>{
+        return res.send(err);
+    })
     
 })
+
+
 
 app.post('/listtodos',(req,res)=>{
     console.log("inside /listtodos api");
